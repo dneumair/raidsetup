@@ -76,11 +76,11 @@ mount -vt btrfs $btrfsPart /tmp/raid1
 ###############################################################################
 # setup btrfs and chroot fs
 ###############################################################################
-btrfs create subvolume @ $btrfsMountPoint
-btrfs create subvolume @home $btrfsMountPoint
-btrfs create subvolume @var $btrfsMountPoint
-btrfs create subvolume @snapshots $btrfsMountPoint
-btrfs create subvolume @logs $btrfsMountPoint
+btrfs subvolume create @ $btrfsMountPoint
+btrfs subvolume create @home $btrfsMountPoint
+btrfs subvolume create @var $btrfsMountPoint
+btrfs subvolume create @snapshots $btrfsMountPoint
+btrfs subvolume create @logs $btrfsMountPoint
 
 mkdir -vp $newroot
 mount -vt btrfs -o subvol=@ $btrfsPart $newroot
