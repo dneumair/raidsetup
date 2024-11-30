@@ -71,16 +71,16 @@ dd if=$efiPart of=$efiPart2
 ###############################################################################
 mkfs.btrfs -f --label btrfsraid --uuid $btrfsId -m raid1 -d raid1 $btrfsPart ${diskB}p2
 mkdir -vp $btrfsMountPoint
-mount -vt btrfs $btrfsPart /tmp/raid1
+mount -vt btrfs $btrfsPart $btrfsMountPoint
 
 ###############################################################################
 # setup btrfs and chroot fs
 ###############################################################################
-btrfs subvolume create @ $btrfsMountPoint
-btrfs subvolume create @home $btrfsMountPoint
-btrfs subvolume create @var $btrfsMountPoint
-btrfs subvolume create @snapshots $btrfsMountPoint
-btrfs subvolume create @logs $btrfsMountPoint
+btrfs subvolume create $btrfsMountPoint/@
+btrfs subvolume create $btrfsMountPoint/@home
+btrfs subvolume create $btrfsMountPoint/@var
+btrfs subvolume create $btrfsMountPoint/@snapshots
+btrfs subvolume create $btrfsMountPoint/@logs
 
 mkdir -vp $newroot
 mount -vt btrfs -o subvol=@ $btrfsPart $newroot
