@@ -119,11 +119,11 @@ debootstrap $suite $newroot
 ###############################################################################
 
 cat << EOF > $newroot/etc/fstab
-UUID=$btrfsId /             btrfs degraded,defaults,subol=/@            0 0
-UUID=$btrfsId /home         btrfs degraded,defaults,subol=/@home        0 0
-UUID=$btrfsId /.snapshots   btrfs degraded,defaults,subol=/@snapshots   0 0
-UUID=$btrfsId /var          btrfs degraded,defaults,subol=/@var         0 0
-UUID=$btrfsId /var/log      btrfs degraded,defaults,subol=/@logs        0 0
+UUID=$btrfsId /             btrfs degraded,defaults,subvol=/@            0 0
+UUID=$btrfsId /home         btrfs degraded,defaults,subvol=/@home        0 0
+UUID=$btrfsId /.snapshots   btrfs degraded,defaults,subvol=/@snapshots   0 0
+UUID=$btrfsId /var          btrfs degraded,defaults,subvol=/@var         0 0
+UUID=$btrfsId /var/log      btrfs degraded,defaults,subvol=/@logs        0 0
 EOF
 
 sed -i 's/^%sudo.*$/%sudo ALL=(ALL:ALL) NOPASSWD:ALL/' $newroot/etc/sudoers
