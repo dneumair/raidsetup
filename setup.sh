@@ -23,7 +23,7 @@ EOF
 
 
 
-mkfs.btrfs --force -m raid1 -d raid1 $btrfsPart ${diskB}p2
+mkfs.btrfs -f -m raid1 -d raid1 $btrfsPart ${diskB}p2
 mkdir /dev/raid1
 mount -t btrfs $btrfsPart /dev/raid1
 
