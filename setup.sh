@@ -51,10 +51,11 @@ apt update -y
 apt install grub-efi-amd64 -y
 
 # copy into the default uefi path so that the firmware can find and load it
-mkdir -p /tmp/efi/EFI/BOOT/
-cp /usr/lib/grub/x86_64-efi/monolithic/grubx64.efi /tmp/efi/EFI/BOOT/BOOTX64.efi
+mkdir -p ${efiMountPoint}/EFI/BOOT/
+cp /usr/lib/grub/x86_64-efi/monolithic/grubx64.efi ${efiMountPoint}/EFI/BOOT/BOOTX64.efi
 
-cat << EOF > /tmp/grub.cfg
+cat << EOF > ${efiMountPoint}/EFI/BOOT/grub.cfg
+set timeout=5
 menuentry "ubuntu" {
     insmod part_dos
     insmod part_btrfs
