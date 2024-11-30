@@ -130,13 +130,17 @@ sed -i 's/^%sudo.*$/%sudo ALL=(ALL:ALL) NOPASSWD:ALL/' $newroot/etc/sudoers
 # install in chroot
 ###############################################################################
 
-chroot $newroot /bin/bash -c << 'EOF'
-apt update -y
-apt install -y linux-image-${linuxVer}
-useradd -m -s /bin/bash -p '$6$baicYIwy1lv8KIOi$XBDbwDVYsUjXmPAUlR0WZ4NunoC5PmiGxhdBwZeX.Ov7Zsq7qWvcU12eRFIlnT3sZOFHcep4eco1v67ftY8z3/' ned3si
-usermod -aG sudo ned3si
-
+chroot $newroot /bin/bash <<EOF
 echo "Europe/Berlin" > /etc/timezone
 DEBIAN_FRONTEND=noninteractive dpkg-reconfigure tzdata
-EOF
 
+apt update -y
+apt install -y linux-image-${linuxVer} curl git openssh-server
+useradd -m -s /bin/bash -p '$6$baicYIwy1lv8KIOi$XBDbwDVYsUjXmPAUlR0WZ4NunoC5PmiGxhdBwZeX.Ov7Zsq7qWvcU12eRFIlnT3sZOFHcep4eco1v67ftY8z3/' ned3si
+usermod -aG sudo ned3si
+mkdir -p /home/ned3si/.ssh/
+curl https://github.com/dneumair.keys > /home/ned3si/.ssh/authorized_keys
+chown -R ned3si:ned3si /home/ned3si/.ssh
+chmod 700 /home/ned3si/.ssh
+chmod 600 /home/ned3si/.ssh/authorized_keys
+EOF
