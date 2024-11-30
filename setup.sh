@@ -88,7 +88,7 @@ mount -vt btrfs -o subvol=@ $btrfsPart $newroot
 mkdir -vp $newroot/home
 mount -vt btrfs -o subvol=@home $btrfsPart $newroot/home
 
-mkdir -vp $newroot/snapshots
+mkdir -vp $newroot/.snapshots
 mount -vt btrfs -o subol=@snapshots $btrfsPart $newroot/.snapshots
 
 mkdir -vp $newroot/var
@@ -118,7 +118,7 @@ debootstrap $suite $newroot
 cat << EOF > $newroot/etc/fstab
 UUID=$btrfsId /             btrfs degraded,defaults,subol=/@            0 0
 UUID=$btrfsId /home         btrfs degraded,defaults,subol=/@home        0 0
-UUID=$btrfsId /.snaphots    btrfs degraded,defaults,subol=/@snapshots   0 0
+UUID=$btrfsId /.snapshots   btrfs degraded,defaults,subol=/@snapshots   0 0
 UUID=$btrfsId /var          btrfs degraded,defaults,subol=/@var         0 0
 UUID=$btrfsId /var/log      btrfs degraded,defaults,subol=/@logs        0 0
 EOF
