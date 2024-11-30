@@ -14,7 +14,7 @@ btrfsMountPoint="/tmp/btrfs"
 newroot="/tmp/newroot"
 
 suite="noble"
-linuxVer="6.8.1-49-generic"
+linuxVer="6.8.0-31-generic"
 
 ###############################################################################
 # wipe disks and setup partitions
@@ -110,3 +110,33 @@ mount --bind /proc $newroot/proc
 
 apt install debootstrap
 debootstrap $suite $newroot
+
+###############################################################################
+# fstab and sudoers
+###############################################################################
+
+cat << EOF > $newroot/etc/fstab
+UUID=$btrfsId /             btrfs degraded,defaults,subol=/@            0 0
+UUID=$btrfsId /home         btrfs degraded,defaults,subol=/@home        0 0
+UUID=$btrfsId /.snaphots    btrfs degraded,defaults,subol=/@snapshots   0 0
+UUID=$btrfsId /var          btrfs degraded,defaults,subol=/@var         0 0
+UUID=$btrfsId /var/log      btrfs degraded,defaults,subol=/@logs        0 0
+EOF
+
+sed -i 's/^%sudo.*$/%sudo ALL=(ALL:ALL) NOPASSWD:ALL/' $newroot/etc/sudoers
+
+
+###############################################################################
+# install in chroot
+###############################################################################
+
+chroot $newroot /bin/bash -c << 'EOF'
+apt update -y
+apt install -y linux-image-${linuxVer}
+useradd -m -s /bin/bash -p '$6$baicYIwy1lv8KIOi$XBDbwDVYsUjXmPAUlR0WZ4NunoC5PmiGxhdBwZeX.Ov7Zsq7qWvcU12eRFIlnT3sZOFHcep4eco1v67ftY8z3/' ned3si
+usermod -aG sudo ned3si
+
+echo "Europe/Berlin" > /etc/timezone
+DEBIAN_FRONTEND=noninteractive dpkg-reconfigure tzdata
+EOF
+
