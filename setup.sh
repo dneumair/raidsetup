@@ -140,7 +140,7 @@ DEBIAN_FRONTEND=noninteractive dpkg-reconfigure tzdata
 
 apt update -y
 apt install -y linux-image-${linuxVer} curl git openssh-server
-useradd -m -s /bin/bash -p "$6$HGNy.V6smXGeivrN$Rimm3drQRh4hK8p2bKqn8apC.avoFrU9C9opiOH0bMkAlYcPzU4H9gx/TpnxeIWnXVXnAPMW8QarA66nnHZdh." ned3si
+useradd -m -s /bin/bash -p "\$6$HGNy.V6smXGeivrN\$Rimm3drQRh4hK8p2bKqn8apC.avoFrU9C9opiOH0bMkAlYcPzU4H9gx/TpnxeIWnXVXnAPMW8QarA66nnHZdh." ned3si
 usermod -aG sudo ned3si
 mkdir -p /home/ned3si/.ssh/
 curl https://github.com/dneumair.keys > /home/ned3si/.ssh/authorized_keys
