@@ -54,7 +54,7 @@ apt install grub-efi-amd64 -y
 mkdir -p /tmp/efi/EFI/BOOT/
 cp /usr/lib/grub/x86_64-efi/monolithic/grubx64.efi /tmp/efi/EFI/BOOT/BOOTX64.efi
 
-cat << EOF >> /tmp/efi/EFI/BOOT/grub.cfg
+cat << EOF > /tmp/efi/EFI/BOOT/grub.cfg
 menuentry 'ubuntu' {
     insmod part_dos
     insmod part_btrfs
