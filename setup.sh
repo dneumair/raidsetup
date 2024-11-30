@@ -54,10 +54,13 @@ cp /usr/lib/grub/x86_64-efi/monolithic/grubx64.efi ${efiMountPoint}/EFI/BOOT/BOO
 cat << EOF > ${efiMountPoint}/EFI/BOOT/grub.cfg
 set timeout=5
 menuentry "ubuntu" {
-    insmod part_dos
-    insmod part_btrfs
     search --no-floppy --set=root --fs-uuid ${btrfsId}
-    linux /@/boot/vm-linuz-${linuxVer} root=UUID=${btrfsId} ro rootflags=subvol=@,degraded
+    linux /@/boot/vmlinuz-${linuxVer} root=UUID=${btrfsId} ro rootflags=subvol=@,degraded
+    initrd /@/boot/initrd.img-${linuxVer}
+}
+menuentry "ubuntu2" {
+    search --no-floppy --set=root --fs-label btrfsraid
+    linux /@/boot/vmlinuz-${linuxVer} root=LABEL=btrfsraid ro rootflags=subvol=@,degraded
     initrd /@/boot/initrd.img-${linuxVer}
 }
 EOF
@@ -132,11 +135,12 @@ sed -i 's/^%sudo.*$/%sudo ALL=(ALL:ALL) NOPASSWD:ALL/' $newroot/etc/sudoers
 
 chroot $newroot /bin/bash <<EOF
 echo "Europe/Berlin" > /etc/timezone
+echo "rippy" > /etc/hostname
 DEBIAN_FRONTEND=noninteractive dpkg-reconfigure tzdata
 
 apt update -y
 apt install -y linux-image-${linuxVer} curl git openssh-server
-useradd -m -s /bin/bash -p '$6$baicYIwy1lv8KIOi$XBDbwDVYsUjXmPAUlR0WZ4NunoC5PmiGxhdBwZeX.Ov7Zsq7qWvcU12eRFIlnT3sZOFHcep4eco1v67ftY8z3/' ned3si
+useradd -m -s /bin/bash -p "$6$baicYIwy1lv8KIOi$XBDbwDVYsUjXmPAUlR0WZ4NunoC5PmiGxhdBwZeX.Ov7Zsq7qWvcU12eRFIlnT3sZOFHcep4eco1v67ftY8z3/" ned3si
 usermod -aG sudo ned3si
 mkdir -p /home/ned3si/.ssh/
 curl https://github.com/dneumair.keys > /home/ned3si/.ssh/authorized_keys
