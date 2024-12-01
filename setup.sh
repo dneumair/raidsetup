@@ -129,6 +129,8 @@ EOF
 sed -i 's/^%sudo.*$/%sudo ALL=(ALL:ALL) NOPASSWD:ALL/' $newroot/etc/sudoers
 
 
+
+
 ###############################################################################
 # install in chroot
 ###############################################################################
@@ -139,7 +141,7 @@ echo "rippy" > /etc/hostname
 DEBIAN_FRONTEND=noninteractive dpkg-reconfigure tzdata
 
 apt update -y
-apt install -y linux-image-${linuxVer} curl git openssh-server
+apt install -y linux-image-${linuxVer} vim curl git openssh-server
 useradd -m -s /bin/bash -p "\$6$HGNy.V6smXGeivrN\$Rimm3drQRh4hK8p2bKqn8apC.avoFrU9C9opiOH0bMkAlYcPzU4H9gx/TpnxeIWnXVXnAPMW8QarA66nnHZdh." ned3si
 usermod -aG sudo ned3si
 mkdir -p /home/ned3si/.ssh/
